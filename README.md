@@ -124,7 +124,7 @@ It can describe a set of archives, including the time that each archive was crea
 If the link is created after the archived URL has changed,
 it can record the original URL but still make the primary link visit an archive.
 
-As far as I know, there's not yet an implementation of this design.
+https://github.com/iipc/robustlinks seems to be an implementation of this design.
 
 #### How this solution would solve the user needs
 
