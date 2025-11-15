@@ -30,9 +30,10 @@ I have <em>not</em> licked this cookie.
   - [Unsupported resource types](#unsupported-resource-types)
 - [Prior art](#prior-art)
   - [Robust links](#robust-links)
+    - [How this solution would solve the user needs](#how-this-solution-would-solve-the-user-needs)
 - [Alternatives Considered](#alternatives-considered)
   - [A list of fallback URLs to try in sequence](#a-list-of-fallback-urls-to-try-in-sequence)
-  - [How this solution would solve the use cases](#how-this-solution-would-solve-the-use-cases)
+    - [How this solution would solve the user needs](#how-this-solution-would-solve-the-user-needs-1)
 - [Detailed design discussion](#detailed-design-discussion)
 - [Security and Privacy Considerations](#security-and-privacy-considerations)
 - [Stakeholder Feedback / Opposition](#stakeholder-feedback--opposition)
@@ -114,15 +115,35 @@ Resource negotiation could handle this, but only if the target server implements
 
 ## Prior art
 
-### [Robust links](https://robustlinks.org/spec/)
+### Robust links
 
-This is based on a set of `data-` attributes that
+[Robust links](https://robustlinks.org/spec/) ([Archive](https://web.archive.org/web/20251115095422/https://robustlinks.org/spec/))
+is based on a set of `data-` attributes that
 capture the notion of linking to the state of a page as of a certain time.
 It can describe a set of archives, including the time that each archive was created.
 If the link is created after the archived URL has changed,
 it can record the original URL but still make the primary link visit an archive.
 
 As far as I know, there's not yet an implementation of this design.
+
+#### How this solution would solve the user needs
+
+[Broken links](#broken-links) are solved straightforwardly.
+[Hijacked URLs](#hijacked-links) and [extractive pages](#extractive-paywalls-or-ads) are solved if the user notices and the UA provides a button to visit the next archive:
+
+```html
+<a href="https://primary.example/resource/url"
+   data-originalurl="https://primary.example/resource/url"
+   data-versiondate="2025-11-15"
+   data-versionurl="https://perma.example/1234-ABCD 2025-11-10T16:43:33Z
+                    https://web.archive.example/web/20241121100333/https://primary.example/resource/url 2025-11-21T10:03:33Z"
+   >Link text</a>
+```
+
+The semantics here don't seem to help with [unsupported schemes](#unsupported-link-schemes)
+or [unsupported resources](#unsupported-resource-types)
+since the necessary alternative representations
+aren't about the content as of a particular time.
 
 ## Alternatives Considered
 
@@ -137,10 +158,13 @@ As far as I know, there's not yet an implementation of this design.
 If the primary URL fails to load, or the user marks it unacceptable through some UI,
 the UA should try to navigate to each fallback in sequence.
 
-### How this solution would solve the use cases
+#### How this solution would solve the user needs
 
-This directly solves the broken link, unsupported scheme, and unsupported resource user needs.
-It only solves the hijacked URL, and extractive page user needs if
+This directly solves the [broken link](#broken-links),
+[unsupported scheme](#unsupported-link-schemes),
+and [unsupported resource](#unsupported-resource-types) user needs.
+It only solves the [hijacked URL](#hijacked-links),
+and [extractive page](#extractive-paywalls-or-ads) user needs if
 the user notices the problem and the UA provides a discoverable button to fall back to the next URL.
 
 This design doesn't identify the date at which the archives were created,
