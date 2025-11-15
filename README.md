@@ -12,7 +12,7 @@ I have <em>not</em> licked this cookie.
 ## Participate
 - https://github.com/jyasskin/handling-unreliable-links/issues
 
-## Table of Contents [if the explainer is longer than one printed page]
+## Table of Contents
 
 <!-- Update this table of contents by running `npx doctoc README.md` -->
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
